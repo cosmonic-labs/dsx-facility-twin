@@ -1,0 +1,9 @@
+[package]
+name = "twin-analytics"
+version = "0.1.0"
+edition = "2024"
+license = "Apache-2.0"
+description = "Forecasting and peer-outlier detection for the facility twin, built on augurs (native + wasm32-wasip2)"
+
+[dependencies]
+augurs = { version = "0.10", default-features = false, features = ["mstl", "ets", "outlier"] }

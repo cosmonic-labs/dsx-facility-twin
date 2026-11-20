@@ -1,0 +1,13 @@
+# Hostgroup for the facility twin. Its wasmcloud:nats plugin sets no `servers`, so it dials
+# Control's own data-plane NATS (nats.nats.svc). DEMO ONLY: in a real DSX site the twin reads
+# DSX Exchange (the Event Bus) and keeps its KV next to it; see docs/storage.md.
+# allowInsecure lets this hostgroup pull the twin's components from the in-cluster kind registry
+# over plain HTTP. Nothing else runs on it.
+hostgroup: twin
+ociRegistry:
+  allowInsecure: "true"
+hostPlugins:
+  - id: wasmcloud-nats
+    config:
+      subject-allow: "BMS.v1.PUB.>,twin.v1.>"
+      bucket-allow: "twin"

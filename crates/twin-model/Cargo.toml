@@ -1,0 +1,18 @@
+[package]
+name = "twin-model"
+version = "0.1.0"
+edition = "2024"
+license = "Apache-2.0"
+description = "Shared data model and impact engine for the DSX facility twin (native + wasm32-wasip2)"
+
+[features]
+default = []
+# YAML profile loading and topology expansion. Native only (the simulator and twinctl);
+# Wasm components receive the expanded topology as JSON.
+profile = ["dep:serde_yaml"]
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+petgraph = { version = "0.8", default-features = false, features = ["stable_graph"] }
+serde_yaml = { version = "0.9", optional = true }

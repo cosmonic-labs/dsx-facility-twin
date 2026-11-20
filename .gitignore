@@ -1,0 +1,10 @@
+target/
+dist/
+ui/node_modules/
+ui/dist/
+*.wasm
+.DS_Store
+.sim-tag
+tests/e2e/out/
+# Cosmonic Desktop design system: not published with this repo
+ui/src/design-system/

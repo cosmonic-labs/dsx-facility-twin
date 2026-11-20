@@ -1,0 +1,113 @@
+=== CDU pump bearing wear (CDU-P1-R2-A)
+  [warn] Bearing wear: target=yellow caused=0 cust={} preds=[('CDU-P1-R2-A.pump_vibration', 'forecast', 55)]
+  [escalate] Flow loss: target=orange caused=160 cust={'lumen': 'yellow', 'corvid': 'yellow'} preds=[('P1-R2-05.liquid_flow', 'forecast', 45), ('P1-R2-01.liquid_flow', 'forecast', 50)]
+  [fail] Pump trip: target=red caused=160 cust={'lumen': 'orange', 'corvid': 'orange'} preds=[]
+  [restore] Restore: target=green caused=0 cust={} preds=[]
+  after: target=green by_tlp={}
+=== Rack quick-disconnect leak (P1-R1-03)
+  [warn] Seep at quick-disconnect: target=yellow caused=0 cust={'helios': 'yellow'} preds=[('CDU-P1-R1-A.reservoir_level', 'forecast', 30)]
+  [fail] Leak detected, rack isolated: target=red caused=0 cust={'helios': 'red'} preds=[]
+  [restore] Restore: target=green caused=0 cust={} preds=[]
+  after: target=green by_tlp={}
+=== CDU secondary loop leak (CDU-P2-R1-B)
+  [warn] Reservoir dropping: target=yellow caused=0 cust={} preds=[('CDU-P2-R1-B.reservoir_level', 'forecast', 15)]
+  [fail] Leak detected, CDU isolated: target=red caused=160 cust={'meridian': 'orange', 'helios': 'orange', 'kestrel': 'orange'} preds=[('P2-R1-08.liquid_return_temp', 'forecast', 30)]
+  [restore] Restore: target=green caused=0 cust={} preds=[]
+  after: target=green by_tlp={}
+=== Trim chiller trip (CH-1)
+  [warn] High head pressure: target=yellow caused=0 cust={} preds=[]
+  [fail] Chiller trips: target=red caused=0 cust={} preds=[]
+  [escalate] Standby chiller trips: target=red caused=644 cust={'helios': 'orange', 'corvid': 'orange', 'lumen': 'orange', 'meridian': 'orange', 'atlas': 'orange', 'kestrel': 'orange'} preds=[('P1-R1-03.inlet_air_temp', 'forecast', 5), ('P1-R1-04.inlet_air_temp', 'forecast', 5)]
+  [restore] Restore: target=green caused=0 cust={} preds=[]
+  after: target=green by_tlp={}
+=== Heat wave and dry cooler failure (DC-2)
+  [warn] Heat building: target=green caused=0 cust={} preds=[]
+  [fail] Dry cooler fan fault: target=red caused=0 cust={} preds=[]
+  [escalate] Second dry cooler fault: target=red caused=649 cust={'helios': 'orange', 'corvid': 'orange', 'lumen': 'orange', 'meridian': 'orange', 'atlas': 'orange', 'kestrel': 'orange'} preds=[('P2-R1-05.liquid_supply_temp', 'forecast', 95), ('P2-R2-06.liquid_supply_temp', 'forecast', 100)]
+  [restore] Restore: target=green caused=0 cust={} preds=[]
+  after: target=green by_tlp={}
+=== Facility water pump trip (FWP-1)
+  [warn] Pump vibration rising: target=yellow caused=0 cust={} preds=[]
+  [fail] Lead pump trips: target=red caused=0 cust={} preds=[]
+  [escalate] Standby drive fault: target=red caused=649 cust={'helios': 'red', 'corvid': 'red', 'lumen': 'red', 'meridian': 'red', 'atlas': 'red', 'kestrel': 'red'} preds=[]
+  [restore] Restore: target=green caused=0 cust={} preds=[]
+  after: target=green by_tlp={}
+=== CRAH failures (CRAH-2)
+  [fail] CRAH fan failure: target=red caused=0 cust={} preds=[]
+  [escalate] Second CRAH failure: target=red caused=640 cust={'helios': 'orange', 'corvid': 'orange', 'lumen': 'orange', 'meridian': 'orange', 'atlas': 'orange', 'kestrel': 'orange'} preds=[]
+  [restore] Restore: target=green caused=0 cust={} preds=[]
+  after: target=green by_tlp={}
+=== Utility outage (generators work) (UTIL-A)
+  [warn] Utility sag: target=yellow caused=0 cust={} preds=[]
+  [fail] Utility lost: target=red caused=0 cust={} preds=[]
+  [mitigate] Running on generators: target=red caused=0 cust={} preds=[]
+  [restore] Utility restored: target=green caused=0 cust={} preds=[]
+  after: target=green by_tlp={'yellow': 1}
+=== Utility outage, generator fails to start (GEN-A)
+  [fail] Utility lost, generator fails: target=red caused=43 cust={} preds=[]
+  [escalate] Batteries depleted: target=red caused=712 cust={'helios': 'yellow', 'corvid': 'yellow', 'lumen': 'yellow', 'meridian': 'yellow', 'atlas': 'yellow', 'kestrel': 'yellow'} preds=[]
+  [restore] Utility restored: target=green caused=0 cust={} preds=[]
+  after: target=green by_tlp={'yellow': 1}
+=== UPS module failure (UPS-B2)
+  [warn] Module alarm: target=yellow caused=0 cust={} preds=[]
+  [fail] Module failed: target=red caused=0 cust={} preds=[]
+  [escalate] Second module fails: static bypass: target=red caused=38 cust={} preds=[]
+  [restore] Restore: target=green caused=0 cust={} preds=[]
+  after: target=green by_tlp={'yellow': 649}
+=== Busway tap overload and trip (P2-R2-02-TAP-A)
+  [warn] Tap overload: target=orange caused=0 cust={} preds=[('P2-R2-02-TAP-A.current', 'forecast', 10)]
+  [fail] Breaker trips: target=red caused=0 cust={} preds=[]
+  [restore] Breaker reset: target=green caused=0 cust={} preds=[]
+  after: target=green by_tlp={'yellow': 1}
+=== Busway fault (BW-P1-R1-B)
+  [fail] Busway de-energized: target=red caused=8 cust={} preds=[]
+  [restore] Restore: target=green caused=0 cust={} preds=[]
+  after: target=green by_tlp={'yellow': 1}
+=== Transformer overheat and trip (XFMR-B)
+  [warn] Winding temperature rising: target=yellow caused=40 cust={} preds=[]
+  [fail] Transformer trips: target=red caused=40 cust={} preds=[]
+  [restore] Restore: target=green caused=0 cust={} preds=[]
+  after: target=green by_tlp={}
+=== DSX Flex grid event (GRID)
+  [warn] Event announced: target=yellow caused=2 cust={} preds=[]
+  [fail] Power cap active: target=orange caused=2 cust={'atlas': 'orange'} preds=[]
+  [escalate] Event extended: target=orange caused=2 cust={'corvid': 'orange', 'meridian': 'orange', 'atlas': 'orange', 'kestrel': 'orange'} preds=[]
+  [restore] Event ends: target=green caused=0 cust={} preds=[]
+  after: target=green by_tlp={}
+=== BESS thermal event (BESS-1)
+  [warn] Cell temperature rising: target=orange caused=0 cust={} preds=[]
+  [fail] BESS isolated: target=red caused=0 cust={} preds=[]
+  [restore] Restore: target=green caused=0 cust={'helios': 'yellow', 'corvid': 'yellow', 'lumen': 'yellow', 'meridian': 'yellow', 'atlas': 'yellow', 'kestrel': 'yellow'} preds=[('FWS.fw_supply_temp', 'forecast', 80), ('CDU-P1-R1-A.cdu_supply_temp', 'forecast', 80)]
+  after: target=green by_tlp={}
+=== Rack power shelf failures (P1-R2-02)
+  [warn] Power shelf fault (1 of 6): target=yellow caused=0 cust={'lumen': 'yellow'} preds=[]
+  [fail] Second power shelf fault: target=orange caused=0 cust={'lumen': 'orange'} preds=[]
+  [restore] Restore: target=green caused=0 cust={} preds=[]
+  after: target=green by_tlp={}
+=== Leaf switch failure (LEAF-P2-R2-A)
+  [warn] CRC errors rising: target=yellow caused=0 cust={} preds=[]
+  [fail] Leaf down: target=red caused=0 cust={} preds=[]
+  [escalate] Partner leaf down: target=red caused=144 cust={'atlas': 'red'} preds=[]
+  [restore] Restore: target=green caused=0 cust={} preds=[]
+  after: target=green by_tlp={}
+=== NVSwitch tray failure (P1-R1-05)
+  [warn] NVLink errors: target=yellow caused=0 cust={'helios': 'yellow'} preds=[]
+  [fail] NVSwitch tray failed: target=orange caused=0 cust={'helios': 'orange'} preds=[]
+  [restore] Restore: target=green caused=0 cust={} preds=[]
+  after: target=green by_tlp={}
+=== GPU XID and tray offline (P1-R1-02-T07)
+  [warn] ECC / thermal warning: target=yellow caused=0 cust={'helios': 'yellow'} preds=[]
+  [fail] Tray offline (XID 79): target=red caused=0 cust={'helios': 'red'} preds=[]
+  [restore] Restore: target=green caused=0 cust={} preds=[]
+  after: target=green by_tlp={}
+=== Drifting, then stuck sensor (P2-R1-04)
+  [warn] Sensor drifting: target=green caused=0 cust={} preds=[]
+  [fail] Sensor stuck: target=green caused=0 cust={} preds=[('P2-R1-04.liquid_return_temp', 'peer_outlier', 0)]
+  [restore] Sensor replaced: target=green caused=0 cust={} preds=[('P2-R1-04.liquid_return_temp', 'peer_outlier', 0)]
+  after: target=green by_tlp={}
+=== BMS gateway comms loss (P2-R2)
+  [warn] Gateway retries: target=unknown caused=0 cust={} preds=[]
+  [fail] Comms lost: target=unknown caused=0 cust={} preds=[]
+  [restore] Restore: target=green caused=0 cust={} preds=[]
+  after: target=green by_tlp={}
+done

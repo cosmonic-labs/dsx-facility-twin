@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: Namespace
+metadata: {name: dsx-twin}
+---
+apiVersion: runtime.wasmcloud.dev/v1alpha1
+kind: WorkloadDeployment
+metadata: {name: twin-impact, namespace: dsx-twin}
+spec:
+  replicas: 1
+  template:
+    spec:
+      hostSelector: {hostgroup: twin}
+      components:
+        - name: twin-impact
+          image: kind-registry:5000/dsx-twin/twin-impact:__TAG__
+          poolSize: 1
+          localResources: {allowedHosts: []}
+      hostInterfaces:
+        - namespace: wasmcloud
+          package: nats
+          version: "0.1.0"
+          interfaces: [types, core, kv, core-handler]
+          config:
+            subject-allow: twin.v1.>
+            bucket-allow: twin
+            core-subscriptions: twin.v1.spike.go
+            max-in-flight: "1"
+---
+apiVersion: runtime.wasmcloud.dev/v1alpha1
+kind: WorkloadDeployment
+metadata: {name: twin-api, namespace: dsx-twin}
+spec:
+  replicas: 1
+  template:
+    spec:
+      hostSelector: {hostgroup: twin}
+      components:
+        - name: twin-api
+          image: kind-registry:5000/dsx-twin/twin-api:__TAG__
+          poolSize: 2
+          localResources: {allowedHosts: []}
+      hostInterfaces:
+        - namespace: wasi
+          package: http
+          interfaces: [handler]
+          config: {host: twin.localhost.cosmonic.sh}
+        - namespace: wasmcloud
+          package: nats
+          version: "0.1.0"
+          interfaces: [types, core, kv]
+          config:
+            subject-allow: twin.v1.>
+            bucket-allow: twin
+---
+apiVersion: control.cosmonic.io/v1alpha2
+kind: HTTPTrigger
+metadata: {name: twin-api, namespace: dsx-twin}
+spec:
+  hostnames: [twin.localhost.cosmonic.sh, twin.dsx.lab, 10.211.55.17]
+  rules: [{backendRefs: [{name: twin-api}]}]

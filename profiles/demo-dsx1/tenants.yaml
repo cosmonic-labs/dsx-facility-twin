@@ -1,0 +1,15 @@
+# Customers on the hall, with contracted price and SLA (fictional).
+# Racks or individual compute trays; `P1-R1-01..04` is a range.
+customers:
+  - {id: helios, name: Helios AI, tier: premium, rate_per_gpu_hr: 5.40, sla_pct: 99.95, color: "#685bc7",
+     racks: ["P1-R1-01..06", "P2-R1-01..02"]}
+  - {id: lumen, name: Lumen Robotics, tier: premium, rate_per_gpu_hr: 5.40, sla_pct: 99.95, color: "#2a74c7",
+     racks: ["P1-R2-01..04"]}
+  - {id: corvid, name: Corvid Labs, tier: standard, rate_per_gpu_hr: 4.20, sla_pct: 99.9, color: "#1fa971",
+     racks: ["P1-R1-07..08", "P1-R2-05..08"]}
+  - {id: meridian, name: Meridian Bio, tier: standard, rate_per_gpu_hr: 4.20, sla_pct: 99.9, color: "#e0a000",
+     racks: ["P2-R1-03..06"]}
+  - {id: atlas, name: Atlas Search, tier: spot, rate_per_gpu_hr: 2.60, sla_pct: 99.0, color: "#c93b40",
+     racks: ["P2-R2-01..06"]}
+  - {id: kestrel, name: Kestrel Media, tier: standard, rate_per_gpu_hr: 4.20, sla_pct: 99.9, color: "#45525b",
+     racks: ["P2-R1-07"], trays: ["P2-R1-08-T01..09"]}

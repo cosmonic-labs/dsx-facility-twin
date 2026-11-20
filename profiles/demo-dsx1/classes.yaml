@@ -1,0 +1,166 @@
+# Canonical point classes: unit, the DSX BMS ObjectType/PointType the simulator publishes,
+# thresholds, and status tables. Threshold levels:
+#   watch    -> yellow  (leading indicator: on trend to be impacted)
+#   degraded -> orange  (running with a limit on power, cooling, network or performance)
+#   out      -> red
+# `relative_to` makes thresholds fractions of an asset attribute (design flow, current limit).
+# `forecast: true` keeps 5-minute history and runs augurs forecasts on the point.
+# Types marked "x-" are not in today's DSX BMS schema; they are this twin's extensions.
+classes:
+  # ---------------- rack (GB200 NVL72) ----------------
+  rack_power:         {label: Rack power, unit: kW, dsx: Rack/RackPower, forecast: true}
+  liquid_supply_temp: {label: Liquid supply, unit: "°C", dsx: Rack/RackLiquidSupplyTemperature, forecast: true,
+                       limit: {dir: high, watch: 33, degraded: 37, out: 45}}
+  liquid_return_temp: {label: Liquid return, unit: "°C", dsx: Rack/RackLiquidReturnTemperature, forecast: true,
+                       limit: {dir: high, watch: 43, degraded: 47, out: 56}}
+  liquid_flow:        {label: Liquid flow, unit: LPM, dsx: Rack/RackLiquidFlow, forecast: true,
+                       limit: {dir: low, watch: 0.85, degraded: 0.70, out: 0.30, relative_to: design_flow_lpm}}
+  liquid_dp:          {label: Rack differential pressure, unit: kPa, dsx: Rack/RackLiquidDifferentialPressure,
+                       limit: {dir: low, watch: 0.85, degraded: 0.60, out: 0.25, relative_to: design_dp_kpa}}
+  valve_pos:          {label: Rack valve, unit: "%", dsx: Rack/RackControlValvePosition}
+  rack_leak:
+    label: Rack leak detect
+    dsx: Rack/RackLeakDetect
+    states: [{value: 0, text: NoLeak, tlp: green}, {value: 1, text: Leak, tlp: red}]
+  liquid_isolation:
+    label: Liquid isolation
+    dsx: Rack/RackLiquidIsolationStatus
+    states: [{value: 0, text: NotIsolated, tlp: green}, {value: 1, text: Isolated, tlp: red}]
+  power_cap_pct:      {label: Power cap, unit: "%", dsx: Rack/x-RackPowerCap,
+                       limit: {dir: low, degraded: 99, out: 5}}
+  gpu_perf_pct:       {label: GPU clocks, unit: "%", dsx: Rack/x-GpuClockPercent,
+                       limit: {dir: low, degraded: 97, out: 5}}
+  inlet_air_temp:     {label: Inlet air, unit: "°C", dsx: Sensor/AirTemperature, forecast: true,
+                       limit: {dir: high, watch: 27, degraded: 32, out: 40}}
+  psu_healthy:        {label: Healthy power shelves, unit: "", dsx: Rack/x-PowerShelfHealthy,
+                       limit: {dir: low, watch: 0.9, degraded: 0.7, out: 0.3, relative_to: psu_count}}
+  # ---------------- in-row CDU ----------------
+  cdu_status:
+    label: CDU status
+    dsx: CDU/Status
+    states: [{value: 0, text: "Off", tlp: red}, {value: 1, text: "On", tlp: green}]
+  cdu_supply_temp:    {label: CDU supply, unit: "°C", dsx: CDU/LiquidTemperature, forecast: true,
+                       limit: {dir: high, watch: 31, degraded: 35}}
+  cdu_return_temp:    {label: CDU return, unit: "°C", dsx: CDU/x-LiquidReturnTemperature}
+  cdu_flow:           {label: CDU flow, unit: LPM, dsx: CDU/LiquidFlow, forecast: true,
+                       limit: {dir: low, watch: 0.40, degraded: 0.30, out: 0.10, relative_to: design_flow_lpm}}
+  pump_vibration:     {label: Pump vibration, unit: mm/s, dsx: CDU/x-PumpVibration, forecast: true,
+                       limit: {dir: high, watch: 4.5, degraded: 7.1, out: 11.0}}
+  reservoir_level:    {label: Reservoir level, unit: "%", dsx: CDU/x-ReservoirLevel, forecast: true,
+                       limit: {dir: low, watch: 75, degraded: 50, out: 20}}
+  cdu_leak:
+    label: CDU leak detect
+    dsx: Sensor/LeakDetect
+    states: [{value: 0, text: NoLeak, tlp: green}, {value: 1, text: Leak, tlp: red}]
+  # ---------------- facility water and heat rejection ----------------
+  fw_supply_temp:     {label: Facility water supply, unit: "°C", dsx: WaterLoop/x-SupplyTemperature, forecast: true,
+                       limit: {dir: high, watch: 29, degraded: 32}}
+  fw_return_temp:     {label: Facility water return, unit: "°C", dsx: WaterLoop/x-ReturnTemperature}
+  fw_flow:            {label: Facility water flow, unit: LPM, dsx: WaterLoop/x-Flow,
+                       limit: {dir: low, watch: 0.6, degraded: 0.4, out: 0.1, relative_to: design_flow_lpm}}
+  ct_status:
+    label: Dry cooler
+    dsx: CoolingTower/x-Status
+    states: [{value: 0, text: Standby, tlp: green}, {value: 1, text: Running, tlp: green}, {value: 2, text: FanFault, tlp: red}]
+  approach_temp:      {label: Approach, unit: "°C", dsx: CoolingTower/x-ApproachTemperature, forecast: true,
+                       limit: {dir: high, watch: 7, degraded: 10, out: 15}}
+  fan_speed:          {label: Fan speed, unit: "%", dsx: CoolingTower/x-FanSpeed}
+  fwp_status:
+    label: Facility pump
+    dsx: Pump/x-Status
+    states: [{value: 0, text: Standby, tlp: green}, {value: 1, text: Running, tlp: green}, {value: 2, text: Tripped, tlp: red}]
+  fwp_vibration:      {label: Pump vibration, unit: mm/s, dsx: Pump/x-Vibration, forecast: true,
+                       limit: {dir: high, watch: 4.5, degraded: 7.1, out: 11.0}}
+  chiller_status:
+    label: Chiller
+    dsx: Chiller/x-Status
+    states: [{value: 0, text: Standby, tlp: green}, {value: 1, text: Running, tlp: green}, {value: 2, text: Alarm, tlp: yellow}, {value: 3, text: Tripped, tlp: red}]
+  chw_supply_temp:    {label: Chilled water supply, unit: "°C", dsx: Chiller/x-SupplyTemperature,
+                       limit: {dir: high, watch: 16, degraded: 19, out: 24}}
+  head_pressure:      {label: Condenser head pressure, unit: kPa, dsx: Chiller/x-HeadPressure, forecast: true,
+                       limit: {dir: high, watch: 1350, degraded: 1550, out: 1750}}
+  crah_status:
+    label: CRAH
+    dsx: CRAH/x-Status
+    states: [{value: 0, text: "Off", tlp: red}, {value: 1, text: Running, tlp: green}, {value: 2, text: FanFault, tlp: red}]
+  supply_air_temp:    {label: Supply air, unit: "°C", dsx: CRAH/x-SupplyAirTemperature,
+                       limit: {dir: high, watch: 24, degraded: 27, out: 32}}
+  # ---------------- grid, utility, generation ----------------
+  grid_frequency:     {label: Grid frequency, unit: Hz, dsx: GridConnection/Frequency,
+                       limit: {dir: band, center: 60.0, watch: 0.10, degraded: 0.30, out: 0.80}}
+  grid_dr_event:
+    label: DSX Flex event
+    dsx: GridConnection/x-FlexEvent
+    states: [{value: 0, text: None, tlp: green}, {value: 1, text: Announced, tlp: yellow}, {value: 2, text: Active, tlp: orange}]
+  grid_import_kw:     {label: Grid import, unit: kW, dsx: GridConnection/ActivePower, forecast: true}
+  util_status:
+    label: Utility
+    dsx: PowerMeter/x-UtilityStatus
+    states: [{value: 0, text: Lost, tlp: red}, {value: 1, text: Normal, tlp: green}, {value: 2, text: Sag, tlp: yellow}]
+  util_voltage:       {label: Utility voltage, unit: V, dsx: PowerMeter/Voltage,
+                       limit: {dir: band, center: 1.0, watch: 0.05, degraded: 0.10, out: 0.50, relative_to: nominal_v}}
+  gen_status:
+    label: Generator
+    dsx: Generator/x-Status
+    states: [{value: 0, text: Standby, tlp: green}, {value: 1, text: Starting, tlp: yellow}, {value: 2, text: Running, tlp: green}, {value: 3, text: FailToStart, tlp: red}, {value: 4, text: Fault, tlp: red}]
+  gen_output_kw:      {label: Generator output, unit: kW, dsx: Generator/x-ActivePower}
+  gen_fuel_pct:       {label: Fuel, unit: "%", dsx: Generator/x-FuelLevel,
+                       limit: {dir: low, watch: 40, degraded: 20, out: 5}}
+  ats_position:
+    label: Transfer switch
+    dsx: TransferSwitch/x-Position
+    states: [{value: 0, text: Utility, tlp: green}, {value: 1, text: Generator, tlp: green}, {value: 2, text: Open, tlp: red}, {value: 3, text: Transferring, tlp: yellow}]
+  xfmr_load_kw:       {label: Transformer load, unit: kW, dsx: Transformer/x-ActivePower, forecast: true}
+  winding_temp:       {label: Winding temperature, unit: "°C", dsx: Transformer/x-WindingTemperature, forecast: true,
+                       limit: {dir: high, watch: 110, degraded: 130, out: 150}}
+  ups_mode:
+    label: UPS mode
+    dsx: UPS/x-Mode
+    states: [{value: 0, text: Normal, tlp: green}, {value: 1, text: OnBattery, tlp: yellow}, {value: 2, text: StaticBypass, tlp: orange}, {value: 3, text: Fault, tlp: red}, {value: 4, text: OutputOff, tlp: red}, {value: 5, text: Alarm, tlp: yellow}]
+  ups_load_pct:       {label: UPS load, unit: "%", dsx: UPS/x-LoadPercent, forecast: true,
+                       limit: {dir: high, watch: 85, degraded: 100, out: 125}}
+  battery_soc:        {label: Battery charge, unit: "%", dsx: UPS/x-StateOfCharge,
+                       limit: {dir: low, watch: 50, degraded: 15, out: 2}}
+  runtime_min:        {label: Battery runtime, unit: min, dsx: UPS/x-RuntimeRemaining, eta_minutes: true}
+  bess_status:
+    label: BESS
+    dsx: BESS/x-Status
+    states: [{value: 0, text: Standby, tlp: green}, {value: 1, text: Charging, tlp: green}, {value: 2, text: Discharging, tlp: green}, {value: 3, text: Fault, tlp: red}, {value: 4, text: Isolated, tlp: red}]
+  bess_soc:           {label: BESS charge, unit: "%", dsx: BESS/x-StateOfCharge,
+                       limit: {dir: low, watch: 25, degraded: 10}}
+  bess_power_kw:      {label: BESS power, unit: kW, dsx: BESS/x-ActivePower}
+  bess_cell_temp:     {label: Cell temperature, unit: "°C", dsx: BESS/x-CellTemperature, forecast: true,
+                       limit: {dir: high, watch: 40, degraded: 48, out: 55}}
+  # ---------------- distribution ----------------
+  active_power:       {label: Load, unit: kW, dsx: PowerMeter/ActivePower, forecast: true}
+  current:            {label: Current, unit: A, dsx: PowerMeter/Current, forecast: true,
+                       limit: {dir: high, watch: 0.80, degraded: 0.95, out: 1.10, relative_to: current_limit_a}}
+  bus_status:
+    label: Bus
+    dsx: PowerMeter/x-BusStatus
+    states: [{value: 0, text: De-energized, tlp: red}, {value: 1, text: Energized, tlp: green}]
+  xfmr_status:
+    label: Transformer
+    dsx: Transformer/x-Status
+    states: [{value: 0, text: Tripped, tlp: red}, {value: 1, text: Energized, tlp: green}]
+  breaker_status:
+    label: Breaker
+    dsx: PowerMeter/x-BreakerStatus
+    states: [{value: 0, text: Tripped, tlp: red}, {value: 1, text: Closed, tlp: green}]
+  # ---------------- network and compute (health feeds, not BMS) ----------------
+  switch_status:
+    label: Switch
+    states: [{value: 0, text: Down, tlp: red}, {value: 1, text: Up, tlp: green}]
+  link_errors:        {label: Link errors, unit: /min, forecast: true,
+                       limit: {dir: high, watch: 50, degraded: 500}}
+  nvl_trays_ok:       {label: NVSwitch trays healthy, unit: "",
+                       limit: {dir: low, degraded: 0.99, out: 0.5, relative_to: switch_trays}}
+  nvl_errors:         {label: NVLink errors, unit: /min,
+                       limit: {dir: high, watch: 10, degraded: 200}}
+  gpu_health:
+    label: GPU health
+    states: [{value: 0, text: Healthy, tlp: green}, {value: 1, text: "Warning (ECC / thermal)", tlp: yellow}, {value: 2, text: Throttled, tlp: orange}, {value: 3, text: "Offline (XID)", tlp: red}]
+  # ---------------- site meters ----------------
+  site_it_kw:         {label: IT load, unit: kW, dsx: PowerMeter/x-SiteITLoad, forecast: true}
+  site_facility_kw:   {label: Facility load, unit: kW, dsx: PowerMeter/x-SiteFacilityLoad}
+  site_pue:           {label: PUE, unit: "", dsx: PowerMeter/x-PUE}

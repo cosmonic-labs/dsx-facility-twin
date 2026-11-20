@@ -1,0 +1,9 @@
+# Native workspace: the shared model and the simulator. The Wasm components live in
+# components/ (their own workspace, target wasm32-wasip2).
+[workspace]
+resolver = "3"
+members = ["crates/twin-model", "crates/twin-analytics", "sim"]
+exclude = ["components"]
+
+[profile.release]
+opt-level = 3

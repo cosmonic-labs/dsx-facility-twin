@@ -1,0 +1,38 @@
+# Demo site: one data hall of GB200 NVL72 racks laid out the way DSX reference designs do
+# (2N power with N+1 UPS modules, in-row CDUs, dry coolers, trim chillers for the air side).
+# A customer site can replace `template` with an explicit `assets:` list; see docs/mapping.md.
+site:
+  id: dsx1
+  name: DSX-1 AI Factory (simulated)
+  org: cosmonic
+  location: Ashburn, VA (simulated)
+  source: "template: gb200-nvl72-hall v1"
+template:
+  pods: 2
+  rows_per_pod: 2
+  racks_per_row: 8
+  rack: {rated_kw: 132, gpus: 72, trays: 18, design_flow_lpm: 190, design_dp_kpa: 140, psus: 6}
+  power:
+    ups_modules_per_side: 3
+    ups_need: 2
+    ups_module_kw: 1500
+    ups_runtime_min: 9
+    generator_kw: 4500
+    transformer_kw: 5000
+    tap_limit_a: 250
+    busway_limit_a: 2000
+  cooling:
+    cdus_per_row: 2
+    cdu_need: 1
+    cdu_capacity_kw: 650
+    cdu_max_flow_lpm: 900
+    dry_coolers: 3
+    dry_cooler_need: 2
+    dry_cooler_kw: 2200
+    fw_pumps: 2
+    chillers: 2
+    crahs: 4
+    crah_need: 3
+    crah_kw: 160
+  network: {spines: 2, leafs_per_row: 2}
+  bess: {kwh: 1200, kw: 300}

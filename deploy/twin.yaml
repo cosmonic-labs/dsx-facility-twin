@@ -1,0 +1,150 @@
+# DSX facility twin on Cosmonic Control.
+#   twin-sim      native simulator + scenario API (Deployment; demo harness only)
+#   twin-ingest   Wasm: binds DSX BMS telemetry to the model, keeps last values and 5-min series
+#   twin-predict  Wasm: augurs forecasts and peer checks
+#   twin-impact   Wasm: petgraph impact engine, writes the snapshot
+#   twin-api      Wasm: wasi:http control panel + JSON API (+ narrow proxy to twin-sim)
+# All Wasm workloads run on hostgroup `twin`, whose wasmcloud:nats plugin uses Control's own
+# data-plane NATS (Nexus). DEMO ONLY: see docs/storage.md for the production layout.
+# __TAG__ / __SIMTAG__ are replaced by `make deploy`.
+apiVersion: v1
+kind: Namespace
+metadata: {name: dsx-twin}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: twin-sim, namespace: dsx-twin, labels: {app: twin-sim}}
+spec:
+  replicas: 1
+  selector: {matchLabels: {app: twin-sim}}
+  template:
+    metadata: {labels: {app: twin-sim}}
+    spec:
+      containers:
+        - name: sim
+          image: twin-sim:__SIMTAG__
+          imagePullPolicy: IfNotPresent
+          env:
+            - {name: NATS_URL, value: "nats://nexus.cosmonic-system.svc.cluster.local:4222"}
+            - {name: SPEED, value: "30"}
+            - {name: TICK_S, value: "10"}
+          ports: [{containerPort: 8090, name: http}]
+          resources: {requests: {cpu: 50m, memory: 64Mi}, limits: {cpu: "1", memory: 512Mi}}
+          readinessProbe: {httpGet: {path: /api/health, port: 8090}, periodSeconds: 5}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: twin-sim, namespace: dsx-twin}
+spec:
+  selector: {app: twin-sim}
+  ports: [{name: http, port: 8090, targetPort: 8090}]
+---
+apiVersion: runtime.wasmcloud.dev/v1alpha1
+kind: WorkloadDeployment
+metadata: {name: twin-ingest, namespace: dsx-twin}
+spec:
+  replicas: 1
+  template:
+    spec:
+      hostSelector: {hostgroup: twin}
+      components:
+        - name: twin-ingest
+          image: kind-registry:5000/dsx-twin/twin-ingest:__TAG__
+          poolSize: 4
+          localResources: {allowedHosts: []}
+      hostInterfaces:
+        - namespace: wasmcloud
+          package: nats
+          version: "0.1.0"
+          interfaces: [types, core, kv, core-handler]
+          config:
+            subject-allow: "BMS.v1.PUB.>,twin.v1.>"
+            bucket-allow: twin
+            core-subscriptions: "BMS.v1.PUB.>,twin.v1.health.>,twin.v1.backfill,twin.v1.profile"
+            max-in-flight: "8"
+---
+apiVersion: runtime.wasmcloud.dev/v1alpha1
+kind: WorkloadDeployment
+metadata: {name: twin-predict, namespace: dsx-twin}
+spec:
+  replicas: 1
+  template:
+    spec:
+      hostSelector: {hostgroup: twin}
+      components:
+        - name: twin-predict
+          image: kind-registry:5000/dsx-twin/twin-predict:__TAG__
+          poolSize: 1
+          localResources: {allowedHosts: []}
+      hostInterfaces:
+        - namespace: wasmcloud
+          package: nats
+          version: "0.1.0"
+          interfaces: [types, core, kv, core-handler]
+          config:
+            subject-allow: "twin.v1.>"
+            bucket-allow: twin
+            core-subscriptions: "twin.v1.tick.predict"
+            max-in-flight: "1"
+---
+apiVersion: runtime.wasmcloud.dev/v1alpha1
+kind: WorkloadDeployment
+metadata: {name: twin-impact, namespace: dsx-twin}
+spec:
+  replicas: 1
+  template:
+    spec:
+      hostSelector: {hostgroup: twin}
+      components:
+        - name: twin-impact
+          image: kind-registry:5000/dsx-twin/twin-impact:__TAG__
+          poolSize: 1
+          localResources: {allowedHosts: []}
+      hostInterfaces:
+        - namespace: wasmcloud
+          package: nats
+          version: "0.1.0"
+          interfaces: [types, core, kv, core-handler]
+          config:
+            subject-allow: "twin.v1.>"
+            bucket-allow: twin
+            core-subscriptions: "twin.v1.sev.>,twin.v1.pred,twin.v1.profile.applied"
+            max-in-flight: "1"
+---
+apiVersion: runtime.wasmcloud.dev/v1alpha1
+kind: WorkloadDeployment
+metadata: {name: twin-api, namespace: dsx-twin}
+spec:
+  replicas: 1
+  template:
+    spec:
+      hostSelector: {hostgroup: twin}
+      components:
+        - name: twin-api
+          image: kind-registry:5000/dsx-twin/twin-api:__TAG__
+          poolSize: 4
+          localResources:
+            environment:
+              config:
+                SIM_URL: "http://twin-sim.dsx-twin.svc.cluster.local:8090"
+            # Egress: the simulator's scenario API and nothing else.
+            allowedHosts: [twin-sim.dsx-twin.svc.cluster.local]
+      hostInterfaces:
+        - namespace: wasi
+          package: http
+          interfaces: [handler]
+          config: {host: twin.localhost.cosmonic.sh}
+        - namespace: wasmcloud
+          package: nats
+          version: "0.1.0"
+          interfaces: [types, core, kv]
+          config:
+            subject-allow: "twin.v1.>"
+            bucket-allow: twin
+---
+apiVersion: control.cosmonic.io/v1alpha2
+kind: HTTPTrigger
+metadata: {name: twin-api, namespace: dsx-twin}
+spec:
+  hostnames: [twin.localhost.cosmonic.sh, twin.dsx.lab, 10.211.55.17, 127.0.0.1, localhost]
+  rules: [{backendRefs: [{name: twin-api}]}]

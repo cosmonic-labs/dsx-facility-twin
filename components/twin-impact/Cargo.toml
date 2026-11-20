@@ -1,0 +1,15 @@
+[package]
+name = "twin-impact"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+wit-bindgen.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+twin-model = { path = "../../crates/twin-model" }

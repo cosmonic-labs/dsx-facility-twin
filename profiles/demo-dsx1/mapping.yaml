@@ -1,0 +1,19 @@
+# How this site's telemetry maps onto the twin. The demo simulator speaks DSX BMS natively,
+# so DSX metadata (objectType/pointType/objectId) resolves almost everything on its own and
+# only the overrides below are needed. A customer site edits THIS file; see docs/mapping.md.
+
+# Incoming point type -> canonical class. Keys: "ObjectType/PointType" or bare "PointType".
+# Defaults come from each class's `dsx` field in classes.yaml; add entries for a site whose
+# BMS integration names points differently. Examples from a real DSX exemplar site:
+point_types:
+  Rack/RackLiquidReturnTemperature: liquid_return_temp
+  Rack/RackLiquidSupplyTemperature: liquid_supply_temp
+  CDU/LiquidTemperature: cdu_supply_temp
+
+# Incoming objectId -> twin asset id (a site whose BMS calls a CDU "C-F00-CDU-05").
+asset_aliases:
+  C-F00-CDU-05: CDU-P1-R1-A
+
+# Feeds that do not carry DSX metadata: one subject token per brace.
+subject_rules:
+  - pattern: "twin.v1.health.{class}.{asset}"

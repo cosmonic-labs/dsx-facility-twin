@@ -1,0 +1,20 @@
+[package]
+name = "twin-api"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+rust-version.workspace = true
+build = "build.rs"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+wit-bindgen.workspace = true
+wasip3.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+http.workspace = true
+http-body-util.workspace = true
+bytes.workspace = true
+twin-model = { path = "../../crates/twin-model" }

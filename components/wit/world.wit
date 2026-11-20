@@ -1,0 +1,18 @@
+package cosmonic-labs:dsx-twin@0.1.0;
+
+/// Analytics components: triggered by core NATS subscriptions, state in NATS KV.
+world twin-brain {
+  import wasmcloud:nats/types@0.1.0;
+  import wasmcloud:nats/core@0.1.0;
+  import wasmcloud:nats/kv@0.1.0;
+
+  export wasmcloud:nats/core-handler@0.1.0;
+}
+
+/// The API component's imports beyond the wasi:http@0.3.0 service world
+/// (which the wasip3 crate generates).
+world twin-api-state {
+  import wasmcloud:nats/types@0.1.0;
+  import wasmcloud:nats/core@0.1.0;
+  import wasmcloud:nats/kv@0.1.0;
+}

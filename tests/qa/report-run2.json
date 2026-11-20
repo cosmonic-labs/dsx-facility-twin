@@ -1,0 +1,2656 @@
+[
+ {
+  "id": "cdu-pump-wear",
+  "name": "CDU pump bearing wear",
+  "target": "CDU-P1-R2-A",
+  "rows": [
+   {
+    "stage": "baseline",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {
+     "yellow": 646
+    },
+    "caused": 0,
+    "customers": {
+     "helios": "yellow",
+     "corvid": "yellow",
+     "lumen": "yellow",
+     "meridian": "yellow",
+     "atlas": "yellow",
+     "kestrel": "yellow"
+    },
+    "warnings": [
+     "Trim chiller 1: predicted out in ~55 min",
+     "Trim chiller 2: predicted out in ~55 min"
+    ],
+    "predictions": [
+     [
+      "CH-1.head_pressure",
+      "forecast",
+      55
+     ],
+     [
+      "CH-2.head_pressure",
+      "forecast",
+      55
+     ]
+    ],
+    "fitted": 74,
+    "fit_ms": 1949
+   },
+   {
+    "stage": "Bearing wear",
+    "kind": "warn",
+    "expect": "CDU yellow (vibration watch). augurs forecasts the trend.",
+    "target": "yellow",
+    "reason": "Pump vibration 4.7 mm/s (watch: above 4.5 mm/s)",
+    "eta": 80.0,
+    "by_tlp": {
+     "yellow": 1
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "CDU 2A: predicted degraded in ~80 min",
+     "CDU 2A: early warning"
+    ],
+    "predictions": [
+     [
+      "CDU-P1-R2-A.pump_vibration",
+      "forecast",
+      80
+     ]
+    ],
+    "fitted": 74,
+    "fit_ms": 1976
+   },
+   {
+    "stage": "Flow loss",
+    "kind": "escalate",
+    "expect": "CDU orange. Row racks yellow: on trend for the afternoon peak.",
+    "target": "orange",
+    "reason": "Pump vibration 7.8 mm/s (degraded: above 7.1 mm/s)",
+    "eta": null,
+    "by_tlp": {
+     "orange": 1,
+     "yellow": 160
+    },
+    "caused": 160,
+    "customers": {
+     "lumen": "yellow",
+     "corvid": "yellow"
+    },
+    "warnings": [
+     "CDU 2A degraded",
+     "Redundancy lost: 8 assets on a single path"
+    ],
+    "predictions": [],
+    "fitted": 73,
+    "fit_ms": 2140
+   },
+   {
+    "stage": "Pump trip",
+    "kind": "fail",
+    "expect": "CDU red. Racks lose cooling redundancy; at peak load they warm into degraded and throttle.",
+    "target": "red",
+    "reason": "CDU flow 0.0 LPM (out: below 10% of design)",
+    "eta": null,
+    "by_tlp": {
+     "orange": 160,
+     "red": 1
+    },
+    "caused": 160,
+    "customers": {
+     "lumen": "orange",
+     "corvid": "orange"
+    },
+    "warnings": [
+     "CDU 2A out",
+     "Rack 2-02: predicted degraded in ~1.8 h",
+     "Rack 2-03: predicted degraded in ~2.0 h",
+     "Redundancy lost: 8 assets on a single path"
+    ],
+    "predictions": [
+     [
+      "P1-R2-02.liquid_return_temp",
+      "forecast",
+      110
+     ],
+     [
+      "P1-R2-03.liquid_return_temp",
+      "forecast",
+      120
+     ]
+    ],
+    "fitted": 73,
+    "fit_ms": 2135
+   },
+   {
+    "stage": "Restore",
+    "kind": "restore",
+    "expect": "States clear back to green as readings recover.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 75,
+    "fit_ms": 3256
+   },
+   {
+    "stage": "after restore",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 74,
+    "fit_ms": 2037
+   }
+  ]
+ },
+ {
+  "id": "rack-qd-leak",
+  "name": "Rack quick-disconnect leak",
+  "target": "P1-R1-03",
+  "rows": [
+   {
+    "stage": "baseline",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 74,
+    "fit_ms": 2037
+   },
+   {
+    "stage": "Seep at quick-disconnect",
+    "kind": "warn",
+    "expect": "Reservoir forecast and rack dP point to a leak before the detector trips.",
+    "target": "yellow",
+    "reason": "Rack differential pressure 107.3 kPa (watch: below 85% of design)",
+    "eta": 95.0,
+    "by_tlp": {
+     "yellow": 21
+    },
+    "caused": 0,
+    "customers": {
+     "helios": "yellow"
+    },
+    "warnings": [
+     "Rack 1-03: predicted degraded in ~1.6 h",
+     "CDU 1A: early warning"
+    ],
+    "predictions": [
+     [
+      "P1-R1-03.liquid_flow",
+      "forecast",
+      95
+     ]
+    ],
+    "fitted": 74,
+    "fit_ms": 2187
+   },
+   {
+    "stage": "Leak detected, rack isolated",
+    "kind": "fail",
+    "expect": "Rack red, its 18 trays red, customer red.",
+    "target": "red",
+    "reason": "GPU clocks 0.0 % (out: below 5.0 %)",
+    "eta": null,
+    "by_tlp": {
+     "orange": 1,
+     "red": 20
+    },
+    "caused": 19,
+    "customers": {
+     "helios": "red"
+    },
+    "warnings": [
+     "Rack 1-03 out",
+     "CDU 1A degraded",
+     "CDU 1A: predicted out in ~25 min",
+     "Redundancy lost: 8 assets on a single path"
+    ],
+    "predictions": [
+     [
+      "CDU-P1-R1-A.reservoir_level",
+      "forecast",
+      25
+     ]
+    ],
+    "fitted": 81,
+    "fit_ms": 2359
+   },
+   {
+    "stage": "Restore",
+    "kind": "restore",
+    "expect": "States clear back to green as readings recover.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Rack 1-03: unusual versus its peers"
+    ],
+    "predictions": [
+     [
+      "P1-R1-03.liquid_return_temp",
+      "peer_outlier",
+      0
+     ]
+    ],
+    "fitted": 124,
+    "fit_ms": 3530
+   },
+   {
+    "stage": "after restore",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 127,
+    "fit_ms": 3734
+   }
+  ]
+ },
+ {
+  "id": "cdu-leak",
+  "name": "CDU secondary loop leak",
+  "target": "CDU-P2-R1-B",
+  "rows": [
+   {
+    "stage": "baseline",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 127,
+    "fit_ms": 3850
+   },
+   {
+    "stage": "Reservoir dropping",
+    "kind": "warn",
+    "expect": "augurs predicts the level crossing its degraded limit; CDU yellow.",
+    "target": "yellow",
+    "reason": "Reservoir level 70.0 % (watch: below 75.0 %)",
+    "eta": 55.0,
+    "by_tlp": {
+     "yellow": 1
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "CDU 3B: predicted degraded in ~55 min",
+     "CDU 3B: early warning"
+    ],
+    "predictions": [
+     [
+      "CDU-P2-R1-B.reservoir_level",
+      "forecast",
+      55
+     ]
+    ],
+    "fitted": 127,
+    "fit_ms": 3655
+   },
+   {
+    "stage": "Leak detected, CDU isolated",
+    "kind": "fail",
+    "expect": "CDU red; row racks redundancy lost, degraded at peak.",
+    "target": "red",
+    "reason": "CDU flow 0.0 LPM (out: below 10% of design)",
+    "eta": null,
+    "by_tlp": {
+     "orange": 160,
+     "red": 1,
+     "yellow": 1
+    },
+    "caused": 160,
+    "customers": {
+     "meridian": "orange",
+     "helios": "orange",
+     "kestrel": "orange"
+    },
+    "warnings": [
+     "CDU 3B out",
+     "CDU 3B: predicted degraded in ~5 min",
+     "CDU 3A: predicted degraded in ~5 min",
+     "Rack 3-04: predicted out in ~5 min",
+     "Rack 3-06: predicted out in ~5 min"
+    ],
+    "predictions": [
+     [
+      "CDU-P2-R1-A.cdu_supply_temp",
+      "forecast",
+      5
+     ],
+     [
+      "CDU-P2-R1-B.cdu_supply_temp",
+      "forecast",
+      5
+     ],
+     [
+      "P2-R1-04.liquid_return_temp",
+      "forecast",
+      5
+     ],
+     [
+      "P2-R1-06.liquid_return_temp",
+      "forecast",
+      5
+     ],
+     [
+      "P2-R1-07.liquid_return_temp",
+      "forecast",
+      5
+     ]
+    ],
+    "fitted": 113,
+    "fit_ms": 3399
+   },
+   {
+    "stage": "Restore",
+    "kind": "restore",
+    "expect": "States clear back to green as readings recover.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 129,
+    "fit_ms": 4098
+   },
+   {
+    "stage": "after restore",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 127,
+    "fit_ms": 3925
+   }
+  ]
+ },
+ {
+  "id": "chiller-trip",
+  "name": "Trim chiller trip",
+  "target": "CH-1",
+  "rows": [
+   {
+    "stage": "baseline",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 127,
+    "fit_ms": 3805
+   },
+   {
+    "stage": "High head pressure",
+    "kind": "warn",
+    "expect": "Chiller yellow.",
+    "target": "yellow",
+    "reason": "Chiller: Alarm",
+    "eta": null,
+    "by_tlp": {
+     "yellow": 1
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Trim chiller 1: early warning"
+    ],
+    "predictions": [],
+    "fitted": 127,
+    "fit_ms": 2780
+   },
+   {
+    "stage": "Chiller trips",
+    "kind": "fail",
+    "expect": "Chiller red; CRAHs on a single chiller (redundancy lost).",
+    "target": "red",
+    "reason": "Chiller: Tripped",
+    "eta": null,
+    "by_tlp": {
+     "red": 1
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Trim chiller 1 out",
+     "Redundancy lost: 4 assets on a single path"
+    ],
+    "predictions": [],
+    "fitted": 126,
+    "fit_ms": 2911
+   },
+   {
+    "stage": "Standby chiller trips",
+    "kind": "escalate",
+    "expect": "CRAHs out; racks ride through on room air, then inlet air goes degraded.",
+    "target": "red",
+    "reason": "Chiller: Tripped",
+    "eta": null,
+    "by_tlp": {
+     "orange": 640,
+     "red": 6
+    },
+    "caused": 644,
+    "customers": {
+     "helios": "orange",
+     "corvid": "orange",
+     "lumen": "orange",
+     "meridian": "orange",
+     "atlas": "orange",
+     "kestrel": "orange"
+    },
+    "warnings": [
+     "Trim chiller 1 out",
+     "Trim chiller 2 out",
+     "Rack 1-01: predicted out in ~15 min",
+     "Rack 1-02: predicted out in ~15 min",
+     "Rack 1-03: predicted out in ~15 min"
+    ],
+    "predictions": [
+     [
+      "P1-R1-01.inlet_air_temp",
+      "forecast",
+      15
+     ],
+     [
+      "P1-R1-02.inlet_air_temp",
+      "forecast",
+      15
+     ],
+     [
+      "P1-R1-03.inlet_air_temp",
+      "forecast",
+      15
+     ],
+     [
+      "P1-R1-04.inlet_air_temp",
+      "forecast",
+      15
+     ],
+     [
+      "P1-R1-05.inlet_air_temp",
+      "forecast",
+      15
+     ]
+    ],
+    "fitted": 100,
+    "fit_ms": 2792
+   },
+   {
+    "stage": "Restore",
+    "kind": "restore",
+    "expect": "States clear back to green as readings recover.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 80,
+    "fit_ms": 2264
+   },
+   {
+    "stage": "after restore",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 74,
+    "fit_ms": 2724
+   }
+  ]
+ },
+ {
+  "id": "heat-wave",
+  "name": "Heat wave and dry cooler failure",
+  "target": "DC-2",
+  "rows": [
+   {
+    "stage": "baseline",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 74,
+    "fit_ms": 2751
+   },
+   {
+    "stage": "Heat building",
+    "kind": "warn",
+    "expect": "augurs forecasts facility water crossing its limit: site-wide yellow.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 74,
+    "fit_ms": 2091
+   },
+   {
+    "stage": "Dry cooler fan fault",
+    "kind": "fail",
+    "expect": "Dry cooler red; facility water warm; CDUs and racks drift toward degraded.",
+    "target": "red",
+    "reason": "Dry cooler: FanFault",
+    "eta": null,
+    "by_tlp": {
+     "red": 1,
+     "yellow": 161
+    },
+    "caused": 0,
+    "customers": {
+     "lumen": "yellow",
+     "corvid": "yellow"
+    },
+    "warnings": [
+     "Dry cooler 2 out",
+     "CDU 2A: predicted degraded in ~80 min",
+     "CDU 2A: predicted out in ~1.6 h",
+     "Rack 2-01: predicted degraded in ~1.7 h",
+     "Rack 2-02: predicted degraded in ~1.7 h"
+    ],
+    "predictions": [
+     [
+      "CDU-P1-R2-A.pump_vibration",
+      "forecast",
+      80
+     ],
+     [
+      "CDU-P1-R2-A.cdu_flow",
+      "forecast",
+      95
+     ],
+     [
+      "P1-R2-01.liquid_flow",
+      "forecast",
+      100
+     ],
+     [
+      "P1-R2-02.liquid_flow",
+      "forecast",
+      100
+     ],
+     [
+      "P1-R2-03.liquid_flow",
+      "forecast",
+      100
+     ]
+    ],
+    "fitted": 125,
+    "fit_ms": 3411
+   },
+   {
+    "stage": "Second dry cooler fault",
+    "kind": "escalate",
+    "expect": "Facility water degraded; racks across the hall throttle (orange).",
+    "target": "red",
+    "reason": "Dry cooler: FanFault",
+    "eta": null,
+    "by_tlp": {
+     "orange": 649,
+     "red": 2,
+     "yellow": 1
+    },
+    "caused": 649,
+    "customers": {
+     "helios": "orange",
+     "corvid": "orange",
+     "lumen": "orange",
+     "meridian": "orange",
+     "atlas": "orange",
+     "kestrel": "orange"
+    },
+    "warnings": [
+     "Dry cooler 2 out",
+     "Dry cooler 3 out",
+     "Dry cooler 3: predicted degraded in ~1.8 h",
+     "Dry cooler 2: predicted degraded in ~1.9 h",
+     "CDU 2A: predicted degraded in ~40 min"
+    ],
+    "predictions": [
+     [
+      "CDU-P1-R2-A.cdu_flow",
+      "forecast",
+      40
+     ],
+     [
+      "P1-R2-01.liquid_flow",
+      "forecast",
+      40
+     ],
+     [
+      "P1-R2-02.liquid_flow",
+      "forecast",
+      40
+     ],
+     [
+      "P1-R2-03.liquid_flow",
+      "forecast",
+      40
+     ],
+     [
+      "P1-R2-04.liquid_flow",
+      "forecast",
+      40
+     ]
+    ],
+    "fitted": 130,
+    "fit_ms": 3657
+   },
+   {
+    "stage": "Restore",
+    "kind": "restore",
+    "expect": "States clear back to green as readings recover.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 73,
+    "fit_ms": 2297
+   },
+   {
+    "stage": "after restore",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 64,
+    "fit_ms": 2075
+   }
+  ]
+ },
+ {
+  "id": "fw-pump-trip",
+  "name": "Facility water pump trip",
+  "target": "FWP-1",
+  "rows": [
+   {
+    "stage": "baseline",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 64,
+    "fit_ms": 2079
+   },
+   {
+    "stage": "Pump vibration rising",
+    "kind": "warn",
+    "expect": "Pump yellow; augurs trend.",
+    "target": "yellow",
+    "reason": "Pump vibration 4.8 mm/s (watch: above 4.5 mm/s)",
+    "eta": 35.0,
+    "by_tlp": {
+     "yellow": 21
+    },
+    "caused": 0,
+    "customers": {
+     "helios": "yellow"
+    },
+    "warnings": [
+     "Rack 1-03: predicted degraded in ~1.7 h",
+     "Facility pump 1: predicted out in ~35 min",
+     "Facility pump 1: early warning"
+    ],
+    "predictions": [
+     [
+      "FWP-1.fwp_vibration",
+      "forecast",
+      35
+     ],
+     [
+      "P1-R1-03.liquid_flow",
+      "forecast",
+      100
+     ]
+    ],
+    "fitted": 65,
+    "fit_ms": 2198
+   },
+   {
+    "stage": "Lead pump trips",
+    "kind": "fail",
+    "expect": "Pump red; facility water on one pump (redundancy lost).",
+    "target": "red",
+    "reason": "Facility pump: Tripped",
+    "eta": null,
+    "by_tlp": {
+     "red": 1,
+     "yellow": 21
+    },
+    "caused": 0,
+    "customers": {
+     "helios": "yellow"
+    },
+    "warnings": [
+     "Facility pump 1 out",
+     "Rack 1-03: predicted out in ~40 min",
+     "CDU 1A: predicted degraded in ~1.9 h",
+     "Redundancy lost: 1 assets on a single path"
+    ],
+    "predictions": [
+     [
+      "P1-R1-03.liquid_flow",
+      "forecast",
+      40
+     ],
+     [
+      "CDU-P1-R1-A.reservoir_level",
+      "forecast",
+      115
+     ]
+    ],
+    "fitted": 66,
+    "fit_ms": 2658
+   },
+   {
+    "stage": "Standby drive fault",
+    "kind": "escalate",
+    "expect": "Facility water red: the widest blast radius in the hall.",
+    "target": "red",
+    "reason": "Facility pump: Tripped",
+    "eta": null,
+    "by_tlp": {
+     "red": 654
+    },
+    "caused": 649,
+    "customers": {
+     "helios": "red",
+     "corvid": "red",
+     "lumen": "red",
+     "meridian": "red",
+     "atlas": "red",
+     "kestrel": "red"
+    },
+    "warnings": [
+     "Dry cooler 1 out",
+     "Dry cooler 2 out",
+     "Dry cooler 3 out",
+     "Facility pump 1 out",
+     "Facility pump 2 out"
+    ],
+    "predictions": [
+     [
+      "P1-R1-03.liquid_flow",
+      "forecast",
+      40
+     ],
+     [
+      "CDU-P1-R1-A.reservoir_level",
+      "forecast",
+      115
+     ]
+    ],
+    "fitted": 66,
+    "fit_ms": 2658
+   },
+   {
+    "stage": "Restore",
+    "kind": "restore",
+    "expect": "States clear back to green as readings recover.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 37,
+    "fit_ms": 1562
+   },
+   {
+    "stage": "after restore",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 152,
+    "fit_ms": 3809
+   }
+  ]
+ },
+ {
+  "id": "crah-failure",
+  "name": "CRAH failures",
+  "target": "CRAH-2",
+  "rows": [
+   {
+    "stage": "baseline",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 152,
+    "fit_ms": 3809
+   },
+   {
+    "stage": "CRAH fan failure",
+    "kind": "fail",
+    "expect": "CRAH red; racks: air cooling redundancy lost.",
+    "target": "red",
+    "reason": "CRAH: FanFault",
+    "eta": null,
+    "by_tlp": {
+     "red": 1
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "CRAH 2 out",
+     "Redundancy lost: 32 assets on a single path"
+    ],
+    "predictions": [],
+    "fitted": 152,
+    "fit_ms": 3831
+   },
+   {
+    "stage": "Second CRAH failure",
+    "kind": "escalate",
+    "expect": "Racks ride through on room air; inlet air climbs toward watch.",
+    "target": "red",
+    "reason": "CRAH: FanFault",
+    "eta": null,
+    "by_tlp": {
+     "orange": 640,
+     "red": 2,
+     "yellow": 1
+    },
+    "caused": 640,
+    "customers": {
+     "helios": "orange",
+     "corvid": "orange",
+     "lumen": "orange",
+     "meridian": "orange",
+     "atlas": "orange",
+     "kestrel": "orange"
+    },
+    "warnings": [
+     "CRAH 1 out",
+     "CRAH 2 out",
+     "CDU 3B: predicted degraded in ~1.9 h"
+    ],
+    "predictions": [
+     [
+      "CDU-P2-R1-B.reservoir_level",
+      "forecast",
+      115
+     ]
+    ],
+    "fitted": 152,
+    "fit_ms": 3921
+   },
+   {
+    "stage": "Restore",
+    "kind": "restore",
+    "expect": "States clear back to green as readings recover.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 152,
+    "fit_ms": 3901
+   },
+   {
+    "stage": "after restore",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 151,
+    "fit_ms": 3967
+   }
+  ]
+ },
+ {
+  "id": "utility-outage",
+  "name": "Utility outage (generators work)",
+  "target": "UTIL-A",
+  "rows": [
+   {
+    "stage": "baseline",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 151,
+    "fit_ms": 3967
+   },
+   {
+    "stage": "Utility sag",
+    "kind": "warn",
+    "expect": "Utility yellow.",
+    "target": "yellow",
+    "reason": "Utility: Sag",
+    "eta": null,
+    "by_tlp": {
+     "yellow": 3
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Grid interconnect: early warning"
+    ],
+    "predictions": [],
+    "fitted": 151,
+    "fit_ms": 3972
+   },
+   {
+    "stage": "Utility lost",
+    "kind": "fail",
+    "expect": "Utility red. Brief on-battery yellow, then green on generator.",
+    "target": "red",
+    "reason": "Utility: Lost",
+    "eta": null,
+    "by_tlp": {
+     "red": 2
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Utility feed A out",
+     "Utility feed B out",
+     "Redundancy lost: 1 assets on a single path",
+     "Redundancy lost: 1 assets on a single path"
+    ],
+    "predictions": [],
+    "fitted": 151,
+    "fit_ms": 3172
+   },
+   {
+    "stage": "Running on generators",
+    "kind": "mitigate",
+    "expect": "Utility red; everything downstream green on the generator path (redundancy lost).",
+    "target": "red",
+    "reason": "Utility: Lost",
+    "eta": null,
+    "by_tlp": {
+     "red": 2
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Utility feed A out",
+     "Utility feed B out",
+     "Redundancy lost: 1 assets on a single path",
+     "Redundancy lost: 1 assets on a single path"
+    ],
+    "predictions": [],
+    "fitted": 151,
+    "fit_ms": 2995
+   },
+   {
+    "stage": "Utility restored",
+    "kind": "restore",
+    "expect": "All green.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 151,
+    "fit_ms": 3082
+   },
+   {
+    "stage": "after restore",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 117,
+    "fit_ms": 2305
+   }
+  ]
+ },
+ {
+  "id": "gen-fail-to-start",
+  "name": "Utility outage, generator fails to start",
+  "target": "GEN-A",
+  "rows": [
+   {
+    "stage": "baseline",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 117,
+    "fit_ms": 2222
+   },
+   {
+    "stage": "Utility lost, generator fails",
+    "kind": "fail",
+    "expect": "UPS modules yellow with a runtime ETA; racks yellow: on trend to lose that side.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {
+     "red": 2
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Utility feed A out",
+     "Utility feed B out",
+     "Redundancy lost: 1 assets on a single path",
+     "Redundancy lost: 1 assets on a single path"
+    ],
+    "predictions": [],
+    "fitted": 117,
+    "fit_ms": 2465
+   },
+   {
+    "stage": "Batteries depleted",
+    "kind": "escalate",
+    "expect": "UPS and side A distribution red; racks green but redundancy lost.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {
+     "red": 2
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Utility feed A out",
+     "Utility feed B out",
+     "Redundancy lost: 1 assets on a single path",
+     "Redundancy lost: 1 assets on a single path"
+    ],
+    "predictions": [],
+    "fitted": 117,
+    "fit_ms": 2519
+   },
+   {
+    "stage": "Utility restored",
+    "kind": "restore",
+    "expect": "All green.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 117,
+    "fit_ms": 2519
+   },
+   {
+    "stage": "after restore",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 117,
+    "fit_ms": 2488
+   }
+  ]
+ },
+ {
+  "id": "ups-module-failure",
+  "name": "UPS module failure",
+  "target": "UPS-B2",
+  "rows": [
+   {
+    "stage": "baseline",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 117,
+    "fit_ms": 2488
+   },
+   {
+    "stage": "Module alarm",
+    "kind": "warn",
+    "expect": "UPS yellow.",
+    "target": "yellow",
+    "reason": "UPS mode: Alarm",
+    "eta": 30.47,
+    "by_tlp": {
+     "yellow": 1
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "UPS B2: stored energy runs out in ~30 min",
+     "UPS B2: early warning"
+    ],
+    "predictions": [
+     [
+      "UPS-B2.runtime_min",
+      "runtime",
+      30
+     ]
+    ],
+    "fitted": 117,
+    "fit_ms": 2557
+   },
+   {
+    "stage": "Module failed",
+    "kind": "fail",
+    "expect": "UPS red; switchboard redundancy lost.",
+    "target": "red",
+    "reason": "UPS mode: Fault",
+    "eta": null,
+    "by_tlp": {
+     "red": 1
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "UPS B2 out",
+     "Redundancy lost: 1 assets on a single path"
+    ],
+    "predictions": [],
+    "fitted": 117,
+    "fit_ms": 3007
+   },
+   {
+    "stage": "Second module fails: static bypass",
+    "kind": "escalate",
+    "expect": "UPS side orange; racks stay up on the other side (redundancy lost).",
+    "target": "red",
+    "reason": "UPS mode: Fault",
+    "eta": null,
+    "by_tlp": {
+     "orange": 39,
+     "red": 1
+    },
+    "caused": 37,
+    "customers": {},
+    "warnings": [
+     "UPS B2 out",
+     "UPS B1 degraded",
+     "UPS B3 degraded",
+     "Redundancy lost: 55 assets on a single path",
+     "Redundancy lost: 55 assets on a single path"
+    ],
+    "predictions": [],
+    "fitted": 117,
+    "fit_ms": 2472
+   },
+   {
+    "stage": "Restore",
+    "kind": "restore",
+    "expect": "States clear back to green as readings recover.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 119,
+    "fit_ms": 2464
+   },
+   {
+    "stage": "after restore",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {
+     "yellow": 652
+    },
+    "caused": 0,
+    "customers": {
+     "helios": "yellow",
+     "corvid": "yellow",
+     "lumen": "yellow",
+     "meridian": "yellow",
+     "atlas": "yellow",
+     "kestrel": "yellow"
+    },
+    "warnings": [
+     "Dry cooler 1: predicted out in ~80 min",
+     "Dry cooler 2: predicted out in ~80 min",
+     "Dry cooler 3: predicted out in ~80 min",
+     "Facility water loop: predicted degraded in ~80 min",
+     "CDU 1A: predicted degraded in ~80 min"
+    ],
+    "predictions": [
+     [
+      "DC-1.approach_temp",
+      "forecast",
+      80
+     ],
+     [
+      "DC-2.approach_temp",
+      "forecast",
+      80
+     ],
+     [
+      "DC-3.approach_temp",
+      "forecast",
+      80
+     ],
+     [
+      "FWS.fw_supply_temp",
+      "forecast",
+      80
+     ],
+     [
+      "CDU-P1-R1-A.cdu_supply_temp",
+      "forecast",
+      80
+     ]
+    ],
+    "fitted": 117,
+    "fit_ms": 2494
+   }
+  ]
+ },
+ {
+  "id": "tap-overload-trip",
+  "name": "Busway tap overload and trip",
+  "target": "P2-R2-02-TAP-A",
+  "rows": [
+   {
+    "stage": "baseline",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {
+     "yellow": 652
+    },
+    "caused": 0,
+    "customers": {
+     "helios": "yellow",
+     "corvid": "yellow",
+     "lumen": "yellow",
+     "meridian": "yellow",
+     "atlas": "yellow",
+     "kestrel": "yellow"
+    },
+    "warnings": [
+     "Dry cooler 1: predicted out in ~20 min",
+     "Dry cooler 2: predicted out in ~20 min",
+     "Dry cooler 3: predicted out in ~20 min",
+     "Facility water loop: predicted degraded in ~20 min",
+     "CDU 1A: predicted degraded in ~20 min"
+    ],
+    "predictions": [
+     [
+      "DC-1.approach_temp",
+      "forecast",
+      20
+     ],
+     [
+      "DC-2.approach_temp",
+      "forecast",
+      20
+     ],
+     [
+      "DC-3.approach_temp",
+      "forecast",
+      20
+     ],
+     [
+      "FWS.fw_supply_temp",
+      "forecast",
+      20
+     ],
+     [
+      "CDU-P1-R1-A.cdu_supply_temp",
+      "forecast",
+      20
+     ]
+    ],
+    "fitted": 116,
+    "fit_ms": 2656
+   },
+   {
+    "stage": "Tap overload",
+    "kind": "warn",
+    "expect": "Tap yellow, then orange; augurs forecasts the trip.",
+    "target": "red",
+    "reason": "Current 312.9 A (out: above 110% of design)",
+    "eta": null,
+    "by_tlp": {
+     "red": 1,
+     "yellow": 20
+    },
+    "caused": 0,
+    "customers": {
+     "helios": "yellow"
+    },
+    "warnings": [
+     "Tap 4-02A out",
+     "Rack 1-03: predicted degraded in ~5 min",
+     "Tap 4-02A: predicted out in ~25 min",
+     "Redundancy lost: 1 assets on a single path"
+    ],
+    "predictions": [
+     [
+      "P1-R1-03.liquid_flow",
+      "forecast",
+      5
+     ],
+     [
+      "P2-R2-02-TAP-A.current",
+      "forecast",
+      25
+     ]
+    ],
+    "fitted": 117,
+    "fit_ms": 2794
+   },
+   {
+    "stage": "Breaker trips",
+    "kind": "fail",
+    "expect": "Tap red; rack redundancy lost.",
+    "target": "red",
+    "reason": "Breaker: Tripped",
+    "eta": null,
+    "by_tlp": {
+     "red": 1,
+     "yellow": 21
+    },
+    "caused": 20,
+    "customers": {
+     "atlas": "yellow"
+    },
+    "warnings": [
+     "Tap 4-02A out",
+     "Tap 4-02B: predicted out in ~60 min",
+     "Redundancy lost: 1 assets on a single path"
+    ],
+    "predictions": [
+     [
+      "P2-R2-02-TAP-B.current",
+      "forecast",
+      60
+     ]
+    ],
+    "fitted": 65,
+    "fit_ms": 1725
+   },
+   {
+    "stage": "Breaker reset",
+    "kind": "restore",
+    "expect": "Green.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 72,
+    "fit_ms": 1866
+   },
+   {
+    "stage": "after restore",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 72,
+    "fit_ms": 1769
+   }
+  ]
+ },
+ {
+  "id": "busway-fault",
+  "name": "Busway fault",
+  "target": "BW-P1-R1-B",
+  "rows": [
+   {
+    "stage": "baseline",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 72,
+    "fit_ms": 1802
+   },
+   {
+    "stage": "Busway de-energized",
+    "kind": "fail",
+    "expect": "Busway and its 8 taps red; 8 racks redundancy lost.",
+    "target": "red",
+    "reason": "Bus: De-energized",
+    "eta": null,
+    "by_tlp": {
+     "red": 9,
+     "yellow": 169
+    },
+    "caused": 168,
+    "customers": {
+     "helios": "yellow",
+     "corvid": "yellow"
+    },
+    "warnings": [
+     "Busway 1B out",
+     "Busway 1A: predicted out in ~40 min",
+     "Tap 1-06A: predicted out in ~30 min",
+     "Tap 1-02A: predicted out in ~35 min",
+     "Tap 1-04A: predicted out in ~35 min"
+    ],
+    "predictions": [
+     [
+      "P1-R1-06-TAP-A.current",
+      "forecast",
+      30
+     ],
+     [
+      "P1-R1-02-TAP-A.current",
+      "forecast",
+      35
+     ],
+     [
+      "P1-R1-04-TAP-A.current",
+      "forecast",
+      35
+     ],
+     [
+      "BW-P1-R1-A.current",
+      "forecast",
+      40
+     ],
+     [
+      "P1-R1-01-TAP-A.current",
+      "forecast",
+      40
+     ]
+    ],
+    "fitted": 81,
+    "fit_ms": 2054
+   },
+   {
+    "stage": "Restore",
+    "kind": "restore",
+    "expect": "States clear back to green as readings recover.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 81,
+    "fit_ms": 2053
+   },
+   {
+    "stage": "after restore",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 72,
+    "fit_ms": 1957
+   }
+  ]
+ },
+ {
+  "id": "transformer-overheat",
+  "name": "Transformer overheat and trip",
+  "target": "XFMR-B",
+  "rows": [
+   {
+    "stage": "baseline",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 72,
+    "fit_ms": 1915
+   },
+   {
+    "stage": "Winding temperature rising",
+    "kind": "warn",
+    "expect": "augurs forecasts the degraded limit; transformer yellow then orange.",
+    "target": "orange",
+    "reason": "Winding temperature 139.5 \u00b0C (degraded: above 130.0 \u00b0C)",
+    "eta": null,
+    "by_tlp": {
+     "orange": 41
+    },
+    "caused": 40,
+    "customers": {},
+    "warnings": [
+     "Transformer B degraded",
+     "Transformer B: predicted out in ~75 min",
+     "Redundancy lost: 55 assets on a single path"
+    ],
+    "predictions": [
+     [
+      "XFMR-B.winding_temp",
+      "forecast",
+      75
+     ]
+    ],
+    "fitted": 73,
+    "fit_ms": 1564
+   },
+   {
+    "stage": "Transformer trips",
+    "kind": "fail",
+    "expect": "UPS yellow with runtime ETA, then side B red; racks redundancy lost.",
+    "target": "red",
+    "reason": "Transformer: Tripped",
+    "eta": null,
+    "by_tlp": {
+     "red": 41,
+     "yellow": 84
+    },
+    "caused": 120,
+    "customers": {
+     "helios": "yellow",
+     "lumen": "yellow"
+    },
+    "warnings": [
+     "Transformer B out",
+     "Tap 1-03A: predicted degraded in ~2.0 h",
+     "Tap 1-05A: predicted degraded in ~2.0 h",
+     "Tap 2-01A: predicted degraded in ~1.9 h",
+     "Tap 2-02A: predicted degraded in ~2.0 h"
+    ],
+    "predictions": [
+     [
+      "P1-R2-01-TAP-A.current",
+      "forecast",
+      115
+     ],
+     [
+      "P1-R1-03-TAP-A.current",
+      "forecast",
+      120
+     ],
+     [
+      "P1-R1-05-TAP-A.current",
+      "forecast",
+      120
+     ],
+     [
+      "P1-R2-02-TAP-A.current",
+      "forecast",
+      120
+     ]
+    ],
+    "fitted": 102,
+    "fit_ms": 2522
+   },
+   {
+    "stage": "Restore",
+    "kind": "restore",
+    "expect": "States clear back to green as readings recover.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 74,
+    "fit_ms": 1798
+   },
+   {
+    "stage": "after restore",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 11,
+    "fit_ms": 624
+   }
+  ]
+ },
+ {
+  "id": "grid-flex-event",
+  "name": "DSX Flex grid event",
+  "target": "GRID",
+  "rows": [
+   {
+    "stage": "baseline",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 2,
+    "fit_ms": 627
+   },
+   {
+    "stage": "Event announced",
+    "kind": "warn",
+    "expect": "Grid yellow.",
+    "target": "yellow",
+    "reason": "DSX Flex event: Announced",
+    "eta": null,
+    "by_tlp": {
+     "yellow": 3
+    },
+    "caused": 2,
+    "customers": {},
+    "warnings": [
+     "Grid interconnect: early warning"
+    ],
+    "predictions": [],
+    "fitted": 2,
+    "fit_ms": 600
+   },
+   {
+    "stage": "Power cap active",
+    "kind": "fail",
+    "expect": "Spot racks orange (capped); premium untouched.",
+    "target": "orange",
+    "reason": "DSX Flex event: Active",
+    "eta": null,
+    "by_tlp": {
+     "orange": 123
+    },
+    "caused": 2,
+    "customers": {
+     "atlas": "orange"
+    },
+    "warnings": [
+     "Rack 4-01 degraded",
+     "Rack 4-02 degraded",
+     "Rack 4-03 degraded",
+     "Rack 4-04 degraded",
+     "Rack 4-05 degraded"
+    ],
+    "predictions": [],
+    "fitted": 2,
+    "fit_ms": 974
+   },
+   {
+    "stage": "Event extended",
+    "kind": "escalate",
+    "expect": "More customers orange; revenue impact climbs.",
+    "target": "orange",
+    "reason": "DSX Flex event: Active",
+    "eta": null,
+    "by_tlp": {
+     "orange": 403
+    },
+    "caused": 2,
+    "customers": {
+     "corvid": "orange",
+     "meridian": "orange",
+     "atlas": "orange",
+     "kestrel": "orange"
+    },
+    "warnings": [
+     "Rack 1-07 degraded",
+     "Rack 1-08 degraded",
+     "Rack 2-05 degraded",
+     "Rack 2-06 degraded",
+     "Rack 2-07 degraded"
+    ],
+    "predictions": [],
+    "fitted": 2,
+    "fit_ms": 594
+   },
+   {
+    "stage": "Event ends",
+    "kind": "restore",
+    "expect": "Green.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 2,
+    "fit_ms": 569
+   },
+   {
+    "stage": "after restore",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 2,
+    "fit_ms": 693
+   }
+  ]
+ },
+ {
+  "id": "bess-thermal",
+  "name": "BESS thermal event",
+  "target": "BESS-1",
+  "rows": [
+   {
+    "stage": "baseline",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 2,
+    "fit_ms": 693
+   },
+   {
+    "stage": "Cell temperature rising",
+    "kind": "warn",
+    "expect": "BESS yellow, augurs forecast.",
+    "target": "orange",
+    "reason": "Cell temperature 49.5 \u00b0C (degraded: above 48.0 \u00b0C)",
+    "eta": null,
+    "by_tlp": {
+     "orange": 1
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "BESS 1 degraded",
+     "BESS 1: predicted out in ~25 min"
+    ],
+    "predictions": [
+     [
+      "BESS-1.bess_cell_temp",
+      "forecast",
+      25
+     ]
+    ],
+    "fitted": 3,
+    "fit_ms": 774
+   },
+   {
+    "stage": "BESS isolated",
+    "kind": "fail",
+    "expect": "BESS red; no Flex reserve.",
+    "target": "red",
+    "reason": "BESS: Isolated",
+    "eta": null,
+    "by_tlp": {
+     "red": 1
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "BESS 1 out"
+    ],
+    "predictions": [],
+    "fitted": 2,
+    "fit_ms": 829
+   },
+   {
+    "stage": "Restore",
+    "kind": "restore",
+    "expect": "States clear back to green as readings recover.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 2,
+    "fit_ms": 829
+   },
+   {
+    "stage": "after restore",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 4,
+    "fit_ms": 963
+   }
+  ]
+ },
+ {
+  "id": "power-shelf-failure",
+  "name": "Rack power shelf failures",
+  "target": "P1-R2-02",
+  "rows": [
+   {
+    "stage": "baseline",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 4,
+    "fit_ms": 963
+   },
+   {
+    "stage": "Power shelf fault (1 of 6)",
+    "kind": "warn",
+    "expect": "Rack yellow.",
+    "target": "yellow",
+    "reason": "Healthy power shelves 5.0  (watch: below 90% of design)",
+    "eta": null,
+    "by_tlp": {
+     "yellow": 20
+    },
+    "caused": 19,
+    "customers": {
+     "lumen": "yellow"
+    },
+    "warnings": [
+     "Rack 2-02: early warning"
+    ],
+    "predictions": [],
+    "fitted": 17,
+    "fit_ms": 937
+   },
+   {
+    "stage": "Second power shelf fault",
+    "kind": "fail",
+    "expect": "Rack orange (capped).",
+    "target": "orange",
+    "reason": "Power cap 75.0 % (degraded: below 99.0 %)",
+    "eta": null,
+    "by_tlp": {
+     "orange": 20
+    },
+    "caused": 19,
+    "customers": {
+     "lumen": "orange"
+    },
+    "warnings": [
+     "Rack 2-02 degraded"
+    ],
+    "predictions": [],
+    "fitted": 62,
+    "fit_ms": 1636
+   },
+   {
+    "stage": "Restore",
+    "kind": "restore",
+    "expect": "States clear back to green as readings recover.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 74,
+    "fit_ms": 1741
+   },
+   {
+    "stage": "after restore",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 73,
+    "fit_ms": 1838
+   }
+  ]
+ },
+ {
+  "id": "leaf-switch-failure",
+  "name": "Leaf switch failure",
+  "target": "LEAF-P2-R2-A",
+  "rows": [
+   {
+    "stage": "baseline",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {},
+    "caused": 0,
+    "customers": {},
+    "warnings": [],
+    "predictions": [],
+    "fitted": 73,
+    "fit_ms": 1881
+   },
+   {
+    "stage": "CRC errors rising",
+    "kind": "warn",
+    "expect": "Leaf yellow.",
+    "target": "yellow",
+    "reason": "Link errors 321.6 /min (watch: above 50.0 /min)",
+    "eta": 75.0,
+    "by_tlp": {
+     "yellow": 1
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Leaf 4A: predicted degraded in ~75 min",
+     "Leaf 4A: early warning"
+    ],
+    "predictions": [
+     [
+      "LEAF-P2-R2-A.link_errors",
+      "forecast",
+      75
+     ]
+    ],
+    "fitted": 76,
+    "fit_ms": 2122
+   },
+   {
+    "stage": "Leaf down",
+    "kind": "fail",
+    "expect": "Leaf red; 144 trays redundancy lost.",
+    "target": "red",
+    "reason": "Switch: Down",
+    "eta": null,
+    "by_tlp": {
+     "red": 1
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Leaf 4A out",
+     "Redundancy lost: 144 assets on a single path"
+    ],
+    "predictions": [],
+    "fitted": 74,
+    "fit_ms": 1938
+   },
+   {
+    "stage": "Partner leaf down",
+    "kind": "escalate",
+    "expect": "Row trays red: the customer's jobs lose the fabric.",
+    "target": "red",
+    "reason": "Switch: Down",
+    "eta": null,
+    "by_tlp": {
+     "red": 146,
+     "yellow": 2
+    },
+    "caused": 144,
+    "customers": {
+     "atlas": "red"
+    },
+    "warnings": [
+     "Leaf 4A out",
+     "Leaf 4B out",
+     "Generator A: early warning",
+     "Generator B: early warning"
+    ],
+    "predictions": [],
+    "fitted": 73,
+    "fit_ms": 1989
+   },
+   {
+    "stage": "Restore",
+    "kind": "restore",
+    "expect": "States clear back to green as readings recover.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {
+     "yellow": 2
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Generator A: early warning",
+     "Generator B: early warning"
+    ],
+    "predictions": [],
+    "fitted": 73,
+    "fit_ms": 1935
+   },
+   {
+    "stage": "after restore",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {
+     "yellow": 2
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Generator A: early warning",
+     "Generator B: early warning"
+    ],
+    "predictions": [],
+    "fitted": 73,
+    "fit_ms": 1650
+   }
+  ]
+ },
+ {
+  "id": "nvlink-tray-failure",
+  "name": "NVSwitch tray failure",
+  "target": "P1-R1-05",
+  "rows": [
+   {
+    "stage": "baseline",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {
+     "yellow": 2
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Generator A: early warning",
+     "Generator B: early warning"
+    ],
+    "predictions": [],
+    "fitted": 73,
+    "fit_ms": 1650
+   },
+   {
+    "stage": "NVLink errors",
+    "kind": "warn",
+    "expect": "NVLink fabric yellow.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {
+     "yellow": 21
+    },
+    "caused": 0,
+    "customers": {
+     "helios": "yellow"
+    },
+    "warnings": [
+     "NVLink 1-05: early warning",
+     "Generator A: early warning",
+     "Generator B: early warning"
+    ],
+    "predictions": [],
+    "fitted": 73,
+    "fit_ms": 1599
+   },
+   {
+    "stage": "NVSwitch tray failed",
+    "kind": "fail",
+    "expect": "Fabric orange; all 18 compute trays degraded.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {
+     "orange": 19,
+     "yellow": 2
+    },
+    "caused": 0,
+    "customers": {
+     "helios": "orange"
+    },
+    "warnings": [
+     "NVLink 1-05 degraded",
+     "Generator A: early warning",
+     "Generator B: early warning"
+    ],
+    "predictions": [],
+    "fitted": 16,
+    "fit_ms": 866
+   },
+   {
+    "stage": "Restore",
+    "kind": "restore",
+    "expect": "States clear back to green as readings recover.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {
+     "yellow": 2
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Generator A: early warning",
+     "Generator B: early warning"
+    ],
+    "predictions": [],
+    "fitted": 16,
+    "fit_ms": 866
+   },
+   {
+    "stage": "after restore",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {
+     "yellow": 2
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Generator A: early warning",
+     "Generator B: early warning"
+    ],
+    "predictions": [],
+    "fitted": 1,
+    "fit_ms": 592
+   }
+  ]
+ },
+ {
+  "id": "gpu-xid",
+  "name": "GPU XID and tray offline",
+  "target": "P1-R1-02-T07",
+  "rows": [
+   {
+    "stage": "baseline",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {
+     "yellow": 2
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Generator A: early warning",
+     "Generator B: early warning"
+    ],
+    "predictions": [],
+    "fitted": 1,
+    "fit_ms": 592
+   },
+   {
+    "stage": "ECC / thermal warning",
+    "kind": "warn",
+    "expect": "Tray yellow.",
+    "target": "yellow",
+    "reason": "GPU health: Warning (ECC / thermal)",
+    "eta": null,
+    "by_tlp": {
+     "yellow": 3
+    },
+    "caused": 0,
+    "customers": {
+     "helios": "yellow"
+    },
+    "warnings": [
+     "Tray 1-02.07: early warning",
+     "Generator A: early warning",
+     "Generator B: early warning"
+    ],
+    "predictions": [],
+    "fitted": 1,
+    "fit_ms": 669
+   },
+   {
+    "stage": "Tray offline (XID 79)",
+    "kind": "fail",
+    "expect": "Tray red; 4 GPUs of one customer out.",
+    "target": "red",
+    "reason": "GPU health: Offline (XID)",
+    "eta": null,
+    "by_tlp": {
+     "red": 1,
+     "yellow": 2
+    },
+    "caused": 0,
+    "customers": {
+     "helios": "red"
+    },
+    "warnings": [
+     "Tray 1-02.07 out",
+     "Generator A: early warning",
+     "Generator B: early warning"
+    ],
+    "predictions": [],
+    "fitted": 1,
+    "fit_ms": 500
+   },
+   {
+    "stage": "Restore",
+    "kind": "restore",
+    "expect": "States clear back to green as readings recover.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {
+     "yellow": 2
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Generator A: early warning",
+     "Generator B: early warning"
+    ],
+    "predictions": [],
+    "fitted": 1,
+    "fit_ms": 515
+   },
+   {
+    "stage": "after restore",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {
+     "yellow": 2
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Generator A: early warning",
+     "Generator B: early warning"
+    ],
+    "predictions": [],
+    "fitted": 1,
+    "fit_ms": 590
+   }
+  ]
+ },
+ {
+  "id": "sensor-stuck",
+  "name": "Drifting, then stuck sensor",
+  "target": "P2-R1-04",
+  "rows": [
+   {
+    "stage": "baseline",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {
+     "yellow": 2
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Generator A: early warning",
+     "Generator B: early warning"
+    ],
+    "predictions": [],
+    "fitted": 1,
+    "fit_ms": 590
+   },
+   {
+    "stage": "Sensor drifting",
+    "kind": "warn",
+    "expect": "augurs peer check: unusual versus its row. Not an equipment fault.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {
+     "yellow": 2
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Generator A: early warning",
+     "Generator B: early warning"
+    ],
+    "predictions": [],
+    "fitted": 1,
+    "fit_ms": 603
+   },
+   {
+    "stage": "Sensor stuck",
+    "kind": "fail",
+    "expect": "Flat line, peers keep moving.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {
+     "yellow": 2
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Rack 3-04: unusual versus its peers",
+     "Generator A: early warning",
+     "Generator B: early warning"
+    ],
+    "predictions": [
+     [
+      "P2-R1-04.liquid_return_temp",
+      "peer_outlier",
+      0
+     ]
+    ],
+    "fitted": 2,
+    "fit_ms": 2705
+   },
+   {
+    "stage": "Sensor replaced",
+    "kind": "restore",
+    "expect": "Green.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {
+     "yellow": 2
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Rack 3-04: unusual versus its peers",
+     "Generator A: early warning",
+     "Generator B: early warning"
+    ],
+    "predictions": [
+     [
+      "P2-R1-04.liquid_return_temp",
+      "peer_outlier",
+      0
+     ]
+    ],
+    "fitted": 1,
+    "fit_ms": 616
+   },
+   {
+    "stage": "after restore",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {
+     "orange": 2
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Generator A degraded",
+     "Generator B degraded",
+     "Redundancy lost: 1 assets on a single path",
+     "Redundancy lost: 1 assets on a single path"
+    ],
+    "predictions": [],
+    "fitted": 0,
+    "fit_ms": 601
+   }
+  ]
+ },
+ {
+  "id": "bms-comms-loss",
+  "name": "BMS gateway comms loss",
+  "target": "P2-R2",
+  "rows": [
+   {
+    "stage": "baseline",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {
+     "orange": 2
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Generator A degraded",
+     "Generator B degraded",
+     "Redundancy lost: 1 assets on a single path",
+     "Redundancy lost: 1 assets on a single path"
+    ],
+    "predictions": [],
+    "fitted": 8,
+    "fit_ms": 1409
+   },
+   {
+    "stage": "Gateway retries",
+    "kind": "warn",
+    "expect": "CDUs grey (no data).",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {
+     "orange": 2,
+     "unknown": 2
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Generator A degraded",
+     "Generator B degraded",
+     "Redundancy lost: 1 assets on a single path",
+     "Redundancy lost: 1 assets on a single path",
+     "CDU 4A: no trustworthy data"
+    ],
+    "predictions": [],
+    "fitted": 49,
+    "fit_ms": 2017
+   },
+   {
+    "stage": "Comms lost",
+    "kind": "fail",
+    "expect": "Row grey: no data, not a failure.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {
+     "orange": 2,
+     "unknown": 36
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Generator A degraded",
+     "Generator B degraded",
+     "Redundancy lost: 1 assets on a single path",
+     "Redundancy lost: 1 assets on a single path",
+     "Busway 4A: no trustworthy data"
+    ],
+    "predictions": [],
+    "fitted": 71,
+    "fit_ms": 2608
+   },
+   {
+    "stage": "Restore",
+    "kind": "restore",
+    "expect": "States clear back to green as readings recover.",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {
+     "orange": 2
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Generator A degraded",
+     "Generator B degraded",
+     "Redundancy lost: 1 assets on a single path",
+     "Redundancy lost: 1 assets on a single path"
+    ],
+    "predictions": [],
+    "fitted": 71,
+    "fit_ms": 2608
+   },
+   {
+    "stage": "after restore",
+    "kind": "-",
+    "target": "green",
+    "reason": "",
+    "eta": null,
+    "by_tlp": {
+     "orange": 2
+    },
+    "caused": 0,
+    "customers": {},
+    "warnings": [
+     "Generator A degraded",
+     "Generator B degraded",
+     "Redundancy lost: 1 assets on a single path",
+     "Redundancy lost: 1 assets on a single path"
+    ],
+    "predictions": [],
+    "fitted": 71,
+    "fit_ms": 2850
+   }
+  ]
+ }
+]

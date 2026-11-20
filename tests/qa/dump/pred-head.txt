@@ -1,0 +1,1 @@
+{"at_ms":1794777885299,"fitted":74,"took_ms":2322,"horizon_min":120.0,"items":[]}
