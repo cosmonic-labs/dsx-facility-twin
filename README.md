@@ -34,6 +34,15 @@ twin-sim ───────────────────────�
 | `deploy/` | Hostgroup values and workload manifests for Control |
 | `docs/` | Architecture, data model, customer mapping, scenarios, storage, lab |
 
+## Watch the demo
+
+[![Extending NVIDIA DSX with secure sandboxes: watch the demo on YouTube](docs/media/video-thumbnail.png)](https://youtu.be/fcvekk56-N8)
+
+[Extending NVIDIA DSX with Secure Sandboxes: AI Factory Digital Twin Demo](https://youtu.be/fcvekk56-N8)
+(4 minutes): a failure cascading through the hall, the twin predicting a pump failure and tracing
+it to customers and revenue, then how the four sandboxed components are built, inspected and
+configured.
+
 ## A walkthrough
 
 **The hall, healthy.** One live picture: customers, GPUs, revenue, load, redundancy.
