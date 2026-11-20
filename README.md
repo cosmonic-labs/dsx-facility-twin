@@ -9,18 +9,24 @@ run as **WebAssembly components on Cosmonic Control**.
   customer by impact, with root causes and ETAs.
 - **wasmcloud:nats** gives the components NATS subscriptions and NATS KV; nothing else.
 
-```
-            DSX BMS telemetry (BMS.v1.PUB.{Value,Metadata}.…)      health feeds, history, profile
-twin-sim ──────────────────────────────────────────────────────────────────────────────┐
-(native,                                                                                ▼
- scenario API)                                                         ┌─────────── twin-ingest (Wasm) ──────────┐
-     ▲                                                                 │ bind subject → point, evaluate limits,  │
-     │ /api/sim/*                                                      │ lkv.<point>, ts.<point>.<day>, sev event │
-     │                                                                 └────────────────┬────────────────────────┘
-┌────┴──────── twin-api (Wasm, wasi:http) ────────┐                    twin.v1.sev.<asset>│      twin.v1.tick.predict
-│ React control panel, JSON API, petgraph trees   │                                       ▼                ▼
-│ login (demo), proxy to the simulator            │◀── KV ──  twin-impact (Wasm, petgraph)   twin-predict (Wasm, augurs)
-└─────────────────────────────────────────────────┘           conditions → snapshot          series → predictions
+```mermaid
+flowchart LR
+    sim["<b>twin-sim</b><br/>native simulator, scenario API"]
+    ingest["<b>twin-ingest</b> (Wasm)<br/>bind subject to point, evaluate limits"]
+    predict["<b>twin-predict</b> (Wasm, augurs)<br/>series to predictions"]
+    impact["<b>twin-impact</b> (Wasm, petgraph)<br/>conditions to snapshot"]
+    api["<b>twin-api</b> (Wasm, wasi:http)<br/>React control panel, JSON API, login (demo)"]
+    kv[("NATS KV<br/>lkv, ts, conditions,<br/>predictions, snapshot")]
+
+    sim -- "DSX BMS telemetry, health feeds,<br/>history, profile" --> ingest
+    sim -- "twin.v1.tick.predict" --> predict
+    ingest -- "twin.v1.sev.&lt;asset&gt;" --> impact
+    predict -- "twin.v1.pred" --> impact
+    ingest --> kv
+    predict --> kv
+    impact --> kv
+    kv --> api
+    api -- "/api/sim/*" --> sim
 ```
 
 | Path | What |
@@ -43,13 +49,13 @@ twin-sim ───────────────────────�
 it to customers and revenue, then how the four sandboxed components are built, inspected and
 configured.
 
-## A walkthrough
+## Walkthrough
 
 **The hall, healthy.** One live picture: customers, GPUs, revenue, load, redundancy.
 
 ![Overview of a healthy hall](docs/media/01-overview-healthy.png)
 
-**The floor and who is on it.** Plant, pods, rows, racks and every compute tray, coloured by state or by customer.
+**The floor and who is on it.** Plant, pods, rows, racks and every compute tray, colored by state or by customer.
 
 | By state | By customer |
 | --- | --- |
